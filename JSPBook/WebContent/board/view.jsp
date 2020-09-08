@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import = "java.util.Enumeration" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +9,9 @@
 <link rel="stylesheet" href="./member.css?after">
 </head>
 <body>
+<%
+	if (session.getAttribute("m_id") != null) { // 설정이 되어있는 상태 즉 로그인이 되어있는 상태
+%>
 	<%@	include file="./dbconn.jsp"%>
 	<%
 		request.setCharacterEncoding("utf-8");
@@ -23,6 +27,7 @@
 		String bm_date = ""; //날짜
 		int bm_cnt = 0; // 조회수
 		String bm_ip = ""; //IP
+		
 		
 		try {
 			sql = "select mt.m_id, mt.m_name, bm.bm_subject, " +
@@ -47,7 +52,7 @@
 			rs.close(); // 쿼리 종료 후 다시 쿼리문 작성
 			pstmt.close();
 
-			sql = "select mt.m_id, mt.m_name, bs.bs_contents " +
+			sql = "select mt.m_id, mt.m_name, bs.bs_contents, bs.bs_num " +
 					"from member_tbl mt, board_sub bs, board_main bm " +
 					"where mt.m_id = bs.m_id and bm.bm_num = bs.bm_num and bs.bm_num = ?"; //댓글 불러오기.
 			
@@ -158,6 +163,7 @@
 			String m_id_bs = rs.getString(1);
 			String m_name_bs = rs.getString(2);
 			String bs_contents_bs = rs.getString(3);
+			int bs_num_bs = rs.getInt(4);
 			bs_contents_bs = bs_contents_bs.replace("\r\n", "<br>");
 	%>
 						<!-- 댓글 반복영역 -->
@@ -167,8 +173,13 @@
 								<p><%=m_id_bs %></p>
 								<p><%=m_name_bs %></p>
 								<P><%=bs_contents_bs %></P>
+								
+								<p><a href="./update_sub.jsp?bs_num=<%=bs_num_bs %>">[수정]</a>&nbsp;
+								   <a href="./delete.jsp?bm_num=<%=bm_num %>&bs_num=<%=bs_num_bs %>">[삭제]</a>&nbsp;
+								   </p>
 							</td>
 						</tr>
+
 	<%		
 			}
 		} catch(Exception e) { // 댓글을 불러 온 후 닫기
@@ -183,12 +194,14 @@
 			
 		}
 	%>
-							<tr>
-							<td class="td_bs_contents" colspan="2">
-								<p>
-									댓글 작성창
-								</p>
-							</td>
+						<tr>
+							<form method="post" action="./insert_bs_ok.jsp">
+								<td class="td_bs_contents" colspan="2">
+									<input type="hidden" name="bm_num" value="<%=bm_num%>">
+									<p><textarea rows="3" cols="50" name="bs_contents"></textarea></p>
+									<p><input type="submit" value="댓글쓰기"></p>
+								</td>
+							</form>
 						</tr>
 					</table>
 			</div>
@@ -198,5 +211,10 @@
 		<p>JSP 웹프로그래밍</p>
 		<p>Copyright(c) Hugh Park. All Right Reserved.</p>
 	</div>
+<%
+	} else { //로그인이 되어있지 않을 시 로그인 페이지로
+		response.sendRedirect("../member/login.jsp");
+	}
+%>
 </body>
 </html>

@@ -58,6 +58,13 @@
             <div id="article">
                 <p class="title">Main Page</p>
                	<p><a href="">hihihihi</a></p>
+               	<%
+				if(session.getAttribute("m_id") != null) {
+				%>
+				<p><a href="board/list.jsp">게시판으로 가기</a></p>
+				<%
+				}
+				%>
             </div>
         </div>
     </div>
