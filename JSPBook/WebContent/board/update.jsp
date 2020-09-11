@@ -44,7 +44,7 @@
 			m_name = rs.getString("m_name");
 			bm_subject = rs.getString("bm_subject");
 			bm_contents = rs.getString("bm_contents");
-			bm_contents = bm_contents.replace("\r\n", "<br>");
+
 			bm_date = rs.getString("bm_date");
 			bm_cnt = rs.getInt("bm_cnt");
 			bm_ip = rs.getString("bm_ip");
@@ -113,21 +113,30 @@
 		</div>
 		<div id="section">
 			<div id="article">
+				<form action="./update_ok.jsp" method="post">
 					<table>
 						<tr>
-							<td class="td_title_long" colspan="2">상세보기</td>
+							<td class="td_title_long" colspan="2">수정하기</td>
 						</tr>
 						<tr>
 							<td class="td_title_base">번호</td>
-							<td class="td_contents"><p><%=bm_num %></p></td>
+							<td class="td_contents">
+								<p><%=bm_num %></p>
+								<input type="hidden" name="bm_num" value="<%=bm_num%>">
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_base">제목</td>
-							<td class="td_contents"><p><%=bm_subject %></p></td>
+							<td class="td_contents">
+								<input type="text" name="bm_subject" value="<%=bm_subject%>">
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_base">아이디</td>
-							<td class="td_contents"><p><%=m_id %></p></td>
+							<td class="td_contents">
+							<p><%=m_id %></p>
+							
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_base">작성자</td>
@@ -147,13 +156,16 @@
 						</tr>
 						<tr>
 							<td class="td_title_big">내용</td>
-							<td class="td_contents_big"><p><%=bm_contents %></p></td>
+							<td class="td_contents_big">
+
+							<p><textarea name="bm_contents" rows="10" cols="50" value="<%=bm_contents%>"><%=bm_contents%></textarea></p>
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_long" colspan="2">
 								<p>
+									<input type="submit" value="수정하기">&nbsp;
 									<a href="./list.jsp">[리스트]</a>&nbsp;
-									<a href="./update.jsp?bm_num=<%= bm_num %>">[수정]</a>&nbsp;
 								</p>
 							</td>
 						</tr>
@@ -173,10 +185,6 @@
 								<p><%=m_id_bs %></p>
 								<p><%=m_name_bs %></p>
 								<P><%=bs_contents_bs %></P>
-								
-								<p><a href="./update_sub.jsp?bm_num=<%=bm_num %>&bs_num=<%=bs_num_bs %>">[수정]</a>&nbsp; <!-- bm_num은 해당 글로 돌아가기 위해, bs_num은 해당 댓글을 삭제하기 위해 -->
-								   <a href="./delete.jsp?bm_num=<%=bm_num %>&bs_num=<%=bs_num_bs %>">[삭제]</a>&nbsp;
-								   </p>
 							</td>
 						</tr>
 
@@ -194,16 +202,8 @@
 			
 		}
 	%>
-						<tr>
-							<form method="post" action="./insert_bs_ok.jsp">
-								<td class="td_bs_contents" colspan="2">
-									<input type="hidden" name="bm_num" value="<%=bm_num%>">
-									<p><textarea rows="3" cols="50" name="bs_contents"></textarea></p>
-									<p><input type="submit" value="댓글쓰기"></p>
-								</td>
-							</form>
-						</tr>
 					</table>
+					</form>
 			</div>
 		</div>
 	</div>

@@ -15,7 +15,9 @@
 	<%@	include file="./dbconn.jsp"%>
 	<%
 		request.setCharacterEncoding("utf-8");
-		String bm_num = request.getParameter("bm_num");
+		
+		String bm_num = request.getParameter("bm_num"); // 해당 글로 돌아가기 위해
+		String bs_num = request.getParameter("bs_num"); // 댓글을 삭제하기 위해
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -54,10 +56,12 @@
 
 			sql = "select mt.m_id, mt.m_name, bs.bs_contents, bs.bs_num " +
 					"from member_tbl mt, board_sub bs, board_main bm " +
-					"where mt.m_id = bs.m_id and bm.bm_num = bs.bm_num and bs.bm_num = ?"; //댓글 불러오기.
+					"where mt.m_id = bs.m_id and bm.bm_num = bs.bm_num " +
+					"and bs.bm_num = ? and bs.bs_num = ?"; //댓글 불러오기.
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, Integer.parseInt(bm_num));
+			pstmt.setInt(2, Integer.parseInt(bs_num));
 			rs = pstmt.executeQuery();
 	%>
 	
@@ -159,25 +163,28 @@
 						</tr>
 						
 	<% //댓글 반복 출력
-		while(rs.next()) {
+		while(rs.next()) { // 반복해도 1개만 레코드 인출됨
 			String m_id_bs = rs.getString(1);
 			String m_name_bs = rs.getString(2);
 			String bs_contents_bs = rs.getString(3);
 			int bs_num_bs = rs.getInt(4);
-			bs_contents_bs = bs_contents_bs.replace("\r\n", "<br>");
 	%>
 						<!-- 댓글 반복영역 -->
 						
 						<tr>
-							<td class="td_bs_contents" colspan="2">
-								<p><%=m_id_bs %></p>
-								<p><%=m_name_bs %></p>
-								<P><%=bs_contents_bs %></P>
+							
+							<form method="post" action="./update_sub_ok.jsp">
+								<td class="td_bs_contents" colspan="2">
+								<input type="hidden" name="bm_num" value="<%=bm_num%>">
+										<input type="hidden" name="bs_num" value="<%=bs_num%>">
+										<p><%=m_id_bs %></p>
+										<p><%=m_name_bs %></p>
+										<P><textarea name="bs_contents" cols="50" rows="3"><%=bs_contents_bs %></textarea></P>
+										<p><input type="submit" value="댓글수정하기"></p>
+								</td>
+							</form>
 								
-								<p><a href="./update_sub.jsp?bm_num=<%=bm_num %>&bs_num=<%=bs_num_bs %>">[수정]</a>&nbsp; <!-- bm_num은 해당 글로 돌아가기 위해, bs_num은 해당 댓글을 삭제하기 위해 -->
-								   <a href="./delete.jsp?bm_num=<%=bm_num %>&bs_num=<%=bs_num_bs %>">[삭제]</a>&nbsp;
-								   </p>
-							</td>
+							
 						</tr>
 
 	<%		
@@ -194,15 +201,6 @@
 			
 		}
 	%>
-						<tr>
-							<form method="post" action="./insert_bs_ok.jsp">
-								<td class="td_bs_contents" colspan="2">
-									<input type="hidden" name="bm_num" value="<%=bm_num%>">
-									<p><textarea rows="3" cols="50" name="bs_contents"></textarea></p>
-									<p><input type="submit" value="댓글쓰기"></p>
-								</td>
-							</form>
-						</tr>
 					</table>
 			</div>
 		</div>

@@ -18,8 +18,7 @@
 	request.setCharacterEncoding("utf-8");
  //query의 객체를 받아옴
 
-
-	String bm_num = request.getParameter("bm_num"); 
+	int bm_num = Integer.parseInt(request.getParameter("bm_num")); 
 	String bs_contents = request.getParameter("bs_contents");
 	String bs_ip = request.getRemoteAddr(); // ip 불러오기
 	Calendar cal = Calendar.getInstance(); //singleton 방식
@@ -37,7 +36,7 @@
 	try {
 		sql = "insert into board_sub values(bs_autonum.nextval, ?, ?, ?, ?, ?)"; 
 		pstmt = conn.prepareStatement(sql);
-		pstmt.setInt(1, Integer.parseInt(bm_num));
+		pstmt.setInt(1, bm_num);
 		pstmt.setString(2, (String) session.getAttribute("m_id"));
 		pstmt.setString(3, bs_contents);
 		pstmt.setString(4, bs_date);
@@ -52,13 +51,13 @@
 		if (conn != null) {
 			conn.close();
 		}
-		response.sendRedirect("./view.jsp"); 
+		response.sendRedirect("./view.jsp?bm_num=" + bm_num); 
 	}
 	// 수정필요
 %>
 <%
 	} else {
-		response.sendRedirect("./view.jsp");
+		response.sendRedirect("./login.jsp");
 	}
 %>
 </body>

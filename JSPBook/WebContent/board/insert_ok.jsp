@@ -1,7 +1,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="java.util.Calendar" %>
+<%@ page import="com.cbnu.MyDate" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,15 +21,9 @@
 	String bm_contents = request.getParameter("bm_contents");
 	String bm_ip = request.getRemoteAddr(); // ip 불러오기
 	
-	Calendar cal = Calendar.getInstance(); //singleton 방식
-	int yy = cal.get(Calendar.YEAR);
-	int mm = cal.get(Calendar.MONTH) + 1; //0 ~ 11 이므로 +1
-	int dd = cal.get(Calendar.DATE);
-	int hh = cal.get(Calendar.HOUR);
-	int ms = cal.get(Calendar.MINUTE);
-	int ss = cal.get(Calendar.SECOND);
 	
-	String bm_date = String.format("%4d-%02d-%02d %02d:%02d:%02d", yy, mm, dd, hh, ms, ss); //날짜 담기
+	
+	String bm_date = MyDate.getDate(); //날짜 담기
 
 	PreparedStatement pstmt = null;
 	String sql = "";
@@ -46,14 +40,13 @@
 		System.out.println(e.toString());
 	} finally {
 		if (pstmt != null) {
-			pstmt.close(); //소켓 닫기
+	pstmt.close(); //소켓 닫기
 		}
 		if (conn != null) {
-			conn.close();
+	conn.close();
 		}
 		response.sendRedirect("./list.jsp"); //list.jsp로 보내기
 	}
-	
 %>
 <%
 	} else { //로그인이 되어있지 않을 시 로그인 페이지로
