@@ -1,0 +1,292 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+li {
+    list-style: none;
+}
+a {
+    text-decoration: none; /* 밑줄처리 X */
+}
+img {
+    border: 0;
+}
+
+/* a 태그 글자 파란색 처리 무효화 */
+a:link {
+	color: black; text-decoration: none;
+}
+a:visited {
+	color: black; text-decoration: none;
+}
+a:hover {
+	color: black; text-decoration: none;
+}
+
+#top_nav {
+    width: 960px;
+    height: 30px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid gray;
+}
+
+#top_nav > #login_info {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#top_nav > #login_info > ul {
+    overflow: hidden; /* 모든 항목이 ul 안에 들어오게 하는 속성 */
+}
+#login_info > ul > li {
+    float: left; /* main_gnb가 absolute 이기 때문에 left 속성을 주어도 왼쪽으로 붙지 않음 */
+}
+#login_info > ul > li > a {
+    display: block; /* 상위 태그인 li가 이미 자리를 잡고 있기 때문에 줄이 바뀌지 않음 */
+    padding: 2px 10px;
+    border: 1px solid gray;
+}
+#login_info > ul > li > a:hover {
+    background: black;
+    color: whitesmoke;
+}
+
+#top_nav > #main_gnb {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#top_nav > #main_gnb > ul {
+    overflow: hidden; /* 모든 항목이 ul 안에 들어오게 하는 속성 */
+}
+#main_gnb > ul > li {
+    float: left; /* main_gnb가 absolute 이기 때문에 left 속성을 주어도 왼쪽으로 붙지 않음 */
+}
+#main_gnb > ul > li > a {
+    display: block; /* 상위 태그인 li가 이미 자리를 잡고 있기 때문에 줄이 바뀌지 않음 */
+    padding: 2px 10px;
+    border: 1px solid gray;
+}
+#main_gnb > ul > li > a:hover {
+    background: black;
+    color: whitesmoke;
+}
+
+#header {
+    width: 960px;
+    height: 150px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid gray;
+}
+#nav {
+    width: 960px;
+    height: 50px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid gray;
+}
+
+#nav > #main_lnb {
+    position: absolute;
+    top: 10px;
+    left: 50%; /* 가운데를 기준으로 객체가 그려짐 */
+	width: 345px;
+	margin-left: -160px;
+	/* border: 1px solid gray; */
+}
+#nav > #main_lnb > ul {
+    overflow: hidden; /* 모든 항목이 ul 안에 들어오게 하는 속성 */
+}
+#main_lnb > ul > li {
+    float: left; /* main_gnb가 absolute 이기 때문에 left 속성을 주어도 왼쪽으로 붙지 않음 */
+}
+#main_lnb > ul > li > a {
+    display: block; /* 상위 태그인 li가 이미 자리를 잡고 있기 때문에 줄이 바뀌지 않음 */
+    padding: 2px 10px;
+    border: 1px solid gray;
+}
+#main_lnb > ul > li > a:hover {
+    background: black;
+    color: whitesmoke;
+}
+
+#contents { /* height 속성값이 없고 컨텐츠가 들어가면서 height가 유동적으로 바뀜 */
+    overflow: hidden;
+    width: 960px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid gray;
+}
+#aside {
+    float: left;
+    width: 200px;
+    border: 1px solid gray;
+}
+#contents > #aside > p:first-child {
+    margin-top: 10px;
+}
+#contents > #aside > p {
+    margin-bottom: 10px;
+}
+#contents > #aside > p > a:hover {
+    background: rgb(150, 150, 150);
+    color: whitesmoke;
+}
+#section {
+    float: right;
+    width: 750px;
+    border: 1px solid gray;
+}
+#article {
+    margin: 10px;
+    border: 1px solid gray;
+}
+#section > #article > p.title {
+    margin-bottom: 5px;
+}
+#section > #article > span.item_title1 {
+    display: inline-block; /* 문자열 처리를 위해 반드시 필요한 속성 inline-block */
+	width: 80px;           /* 이 속성이 없으면 width, text-align 속성이 적용되지 않음 */
+    text-align: center;
+    background: rgb(150, 150, 150);
+    margin-bottom: 3px;
+}
+#section > #article > span.item_title2 {
+    display: inline-block;
+    width: 250px;
+    text-align: center;
+    background: rgb(150, 150, 150);
+    margin-bottom: 3px;
+    padding-left: 8px;
+}
+#section > #article > span.item_title3 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(150, 150, 150);
+    margin-bottom: 3px;
+}
+#section > #article > span.item_title4 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(150, 150, 150);
+    margin-bottom: 3px;
+}
+
+#section > #article > span.item_title5 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(150, 150, 150);
+    margin-bottom: 3px;
+}
+
+
+#section > #article > span.item_contents1 {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    background: rgb(200, 200, 200);
+    margin-bottom: 3px;
+}
+#section > #article > span.item_contents2 {
+    display: inline-block;
+    width: 250px;
+    text-align: left;
+    background: rgb(200, 200, 200);
+    margin-bottom: 3px;
+    padding-left: 8px;
+}
+#section > #article > span.item_contents3 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(200, 200, 200);
+    margin-bottom: 3px;
+}
+#section > #article > span.item_contents4 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(200, 200, 200);
+    margin-bottom: 3px;
+}
+
+#section > #article > span.item_contents5 {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+    background: rgb(200, 200, 200);
+    margin-bottom: 3px;
+}
+#footer {
+    width: 960px;
+    margin: 0 auto;
+    position: relative;
+    border: 1px solid gray;
+}
+#footer > p {
+    margin-top: 5px;
+    text-align: center;
+}
+
+table {
+	border: 1px solid gray;
+	border-collapse: collapse;
+}
+td {
+	border: 1px solid gray;
+}
+td.td_title_long {
+	width: 940px;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+}
+tr:first-of-type > td.td_title_long {
+	background: lightblue;
+}
+tr:last-of-type > td.td_title_long {
+	background: lightgoldenrodyellow;
+}
+td.td_title_base {
+	width: 200px;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+	background: lightgray;
+}
+td.td_contents {
+	width: 740px;
+	height: 50px;
+	text-align: left;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+td.td_title_big {
+	width: 200px;
+	height: 250px;
+	text-align: center;
+	vertical-align: middle;
+	background: lightgray;
+}
+td.td_contents_big {
+	width: 740px;
+	height: 250px;
+	text-align: left;
+	vertical-align: middle;
+	padding-left: 10px;
+}
+
+td.td_bs_contents {
+    width: 740px;
+    height: 100px;
+    text-align: left;
+    vertical-align: middle;
+    padding-left: 10px;
+    background: rgb(46, 120, 120);
+} 
