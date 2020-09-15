@@ -7,11 +7,7 @@
 <meta charset="UTF-8">
 <title>View</title>
 <link rel="stylesheet" href="./member.css?after">
-<script>
-	function imgproc(p_code) {
-		window.open('./imageUpload.jsp?p_code=' + p_code, '', 'width=300px, height=100px');
-	}
-</script>
+
 </head>
 <body>
 <%
@@ -93,12 +89,14 @@
 		</div>
 		<div id="section">
 			<div id="article">
+				<form action="./cart_insert.jsp" method="post">
 					<table>
 						<tr>
 							<td class="td_title_long" colspan="2">상세보기</td>
 						</tr>
 						<tr>
 							<td class="td_title_base">제품 코드</td>
+							<input type="hidden" name="p_code" value="<%=p_code%>">
 							<td class="td_contents"><p><%=p_code %></p></td>
 						</tr>
 						<tr>
@@ -108,8 +106,7 @@
 						<tr>
 							<td class="td_title_base">이미지</td>
 							<td class="td_contents">
-								<p><img src="./images/<%=p_image %>.jpg" width="200"></p>
-								<p><input type="button" value="image upload" onclick="imgproc('<%=p_code%>');"></p>
+								<p><img src="../product/images/<%=p_image %>.jpg" width="300"></p>
 							</td>
 						</tr>
 						<tr>
@@ -117,14 +114,22 @@
 							<td class="td_contents"><p><%=p_price %></p></td>
 						</tr>
 						<tr>
-							<td class="td_title_base">상태</td>
-							<td class="td_contents"><p><%=p_stat %></p></td>
+							<td class="td_title_base">수량</td>
+							<td class="td_contents">
+								<p>
+									<select name="cs_cnt">
+										<%for(int i = 1; i <= 10; i++) { %>
+											<option value=<%=i %>><%=i %></option>
+										<%} %>
+									</select> 개
+								</p>
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_long" colspan="2">
 								<p>
 									<a href="./list.jsp">[리스트]</a>&nbsp;
-									<a href="./update.jsp?p_code=<%= p_code %>">[수정]</a>&nbsp;
+									<input type="submit" value="장바구니 저장">
 								</p>
 							</td>
 						</tr>
@@ -143,7 +148,8 @@
 			
 		}
 	%>
-				</table>
+					</table>
+				</form>
 			</div>
 		</div>
 	</div>

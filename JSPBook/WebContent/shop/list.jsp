@@ -16,7 +16,7 @@
 		String pageNum = request.getParameter("pagenum");
 		
 		int currPage = 1;   //현재 페이지
-		int pageSize = 10;   //페이징 단위
+		int pageSize = 9;   //페이징 단위
 		int startPage = 1;  //해당 그룹의 첫번째 페이지 번호 
 		int endPage = 0;    //해당 그룹의 마지막 페이지 번호
 		int groupSize = 10;  //페이지 리스트 단위 
@@ -91,20 +91,15 @@
         <div id="section">
             <div id="article">
                 <p class="title">리스트</p>
-                
-                
-                <span class="item_title1">상품코드</span>
-                <span class="item_title2">상품명</span>
-                <span class="item_title3">가격</span>
-                <span class="item_title4">이미지</span>
-                <span class="item_title5">상태</span>
+
+              	<table>
                 <%
                 	PreparedStatement pstmt = null;
                 	ResultSet rs = null;
                 	String sql = "";
                 	
                 	try {
-                		sql = "select count(p_code) from product"; // 상품에 담긴 품목 갯수를 알아내기 위한 query
+                		sql = "select count(p_code) from product"; // 장바구니에 담긴 품목 갯수를 알아내기 위한 query
                 		pstmt = conn.prepareStatement(sql);
                 		rs = pstmt.executeQuery();
                 		rs.next();
@@ -126,24 +121,46 @@
                 		pstmt.setInt(1, (currPage - 1) * pageSize + 1);
                 		pstmt.setInt(2, pageSize);
                 		rs = pstmt.executeQuery();
+                		
+                		int count = 0; //테이블의 행, 열 위치 결정 인덱스
                 		while(rs.next()) {
                 			int p_code = rs.getInt("p_code");
                 			String p_name = rs.getString("p_name");
                 			String p_price = rs.getString("p_price");
                 			String p_image = rs.getString("p_image");
                 			String p_stat = rs.getString("p_stat");
-                			
-                		
-                %>
-                <br>
-                <span class="item_contents1"><%=p_code %></span>
-                <span class="item_contents2">
-                	<a href="./view.jsp?p_code=<%= p_code %>"><%=p_name %></a>
-                </span>
-                <span class="item_contents3"><%=p_price %></span>
-                <span class="item_contents4"><img src="./images/<%=p_image %>.jpg" width="30" height="30"></span>
-                <span class="item_contents5"><%=p_stat %></span>
-                <%
+                			if (count % 3 == 0) {
+%>
+                	<tr>
+<%
+                			}
+%>
+     					<td class="td_shop_item">
+	     					<table>
+	     						<tr>
+	     							<td class="td_shop_item_image">
+	     							<a href="./view.jsp?p_code=<%=p_code%>"><img src="../product/images/<%=p_image%>.jpg" width="230px"></a>
+	     							</td>
+	     						</tr>
+	     						<tr>
+	     							<td class="td_shop_item_name">
+	     							<a href="./view.jsp?p_code=<%=p_code%>"><%=p_name %></a>
+	     							</td>
+	     						</tr>
+	     						<tr>
+	     							<td class="td_shop_item_price">
+	     							<a href="./view.jsp?p_code=<%=p_code%>"><%=p_price %></a>
+	     							</td>
+	     						</tr>
+	     					</table>
+	     				</td>
+<%
+						if (count % 3 == 2) { 
+%>   	
+					</tr>
+<%
+               			}
+                			count++;
                 		}
                 	}catch(Exception e) {
 	            		System.out.println(e.toString());
@@ -160,6 +177,7 @@
                 	}
                 	
                 %>
+                </table>
                 <p>
 <%
 				if(startPage > 1) {
@@ -188,7 +206,6 @@
 	}
 %>
                 </p>
-                <p><a href="./insert.jsp">상품등록</a></p>
             </div>
         </div>
     </div>

@@ -51,8 +51,8 @@
 		
 %>
 <script>
-	window.opener.document.reload(); // 이전 window 갱신
-	window.self.close(); // 현재 창 닫기 
+	opener.location.reload(); // 이전 window 갱신
+	window.close(); // 현재 창 닫기 
 </script>
 <%
 	}
