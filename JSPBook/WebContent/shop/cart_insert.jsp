@@ -111,7 +111,7 @@
 		if (conn != null) {
 	conn.close();
 		}
-		//response.sendRedirect("./cart_list.jsp"); //list.jsp로 보내기
+		response.sendRedirect("./cart_list.jsp"); //list.jsp로 보내기
 	} 
 
 %>

@@ -115,17 +115,34 @@
                 <%
                 		chk_cnt++; // while loop 돌 때 증가
                 		} // while 종료
-             			if (chk_cnt > 0) { //카트에 상품이 있을 경우
+           			rs.close();
+                	pstmt.close();
+           			if (chk_cnt > 0) { //카트에 상품이 있을 경우
        			%>
            		<p>
            			<form method="post" action="./buy.jsp">
            				<input type="hidden" name="cm_code" value="<%=cm_code %>">
            				<input type="submit" value="상품구입">
            			</form>
+           			<a href="./list.jsp">상품 리스트</a>
            		</p>
-             		
            		<%
-             			}
+	         			sql = "select sum(p.p_price * cs.cs_cnt) " +
+	           					"from product p, cart_sub cs, cart_main cm " +
+	         					"where p.p_code = cs.p_code and " +
+	           					"cm.cm_code = cs.cm_code and " +
+	         					"cm.m_id = ?"; //상품의 총액
+	           			pstmt = conn.prepareStatement(sql);
+	         			pstmt.setString(1, (String)session.getAttribute("m_id"));
+	         			rs = pstmt.executeQuery();
+	           			rs.next();
+	           			int total = rs.getInt(1);
+           				rs.close();
+           				pstmt.close();
+      			%>
+       				<p>합계 금액 : <%=total %></p>
+       			<%
+             		}
                 		
                 	}catch(Exception e) {
 	            		System.out.println(e.toString());
