@@ -96,15 +96,18 @@
                 <span class="item_title2">주문일</span>
                 <span class="item_title3">아이디</span>
                 <span class="item_title4">상태</span>
-                <span class="item_title5">기타</span>
+                <span class="item_title5">합계</span>
                 <%
                 	PreparedStatement pstmt = null;
                 	ResultSet rs = null;
                 	String sql = "";
                 	
                 	try {
-                		sql = "select count(am_code) from account_main"; // 상품에 담긴 품목 갯수를 알아내기 위한 query
+                		sql = "select count(am_code) from account_main " +
+                				"where m_id = ?"; // 로그인 된 아이디의 결제정보
                 		pstmt = conn.prepareStatement(sql);
+                		pstmt.setString(1, (String)session.getAttribute("m_id"));
+                		
                 		rs = pstmt.executeQuery();
                 		rs.next();
                 		int total = rs.getInt(1); // 전체 레코드 갯수
@@ -118,54 +121,58 @@
                 		sql = "select * from " + // 게시글 페이징
                 				"(select * from " +
                 				"(select rownum as SEQ, am_code, m_id, am_date, am_stat from " + // 글정보
-                				"(select * from account_main order by am_code desc)" + // 게시글 나열
+                				"(select * from account_main " +
+	                				"where m_id = ? " +
+	                				"order by am_code desc)" + // 게시글 나열
                 				") where SEQ >= ?" + // 페이징 시작 위치 지정. 페이지 번호
                 				") where rownum <= ?"; // pagenum번부터 시작해서 pageSize개의 글 페이지 단위(상수)
                 		pstmt = conn.prepareStatement(sql);
-                		pstmt.setInt(1, (currPage - 1) * pageSize + 1);
-                		pstmt.setInt(2, pageSize);
+                		pstmt.setString(1, (String)session.getAttribute("m_id"));
+                		pstmt.setInt(2, (currPage - 1) * pageSize + 1);
+                		pstmt.setInt(3, pageSize);
                 		rs = pstmt.executeQuery();
+                		
                 		while(rs.next()) {
                 			int am_code = rs.getInt("am_code");
                 			String m_id = rs.getString("m_id");
                 			String am_date = rs.getString("am_date");
                 			String am_stat = rs.getString("am_stat");
-                			
-                		
-                %>
+
+                			String sql2 = "select sum(p.p_price * acs.as_cnt) " + //합계 구하는 쿼리문
+									"from product p, account_sub acs " +
+									"where p.p_code = acs.p_code and " +
+									"acs.am_code = ?";
+							PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+							pstmt2.setInt(1, am_code);
+							ResultSet rs2 = pstmt2.executeQuery();
+							rs2.next();
+							int acs_total = rs2.getInt(1);
+							rs2.close();
+							pstmt2.close();
+%>
                 <br>
 	                <span class="item_contents1">
-	                	<a href="./order_view2.jsp?am_code=<%=am_code %>"><%=am_code %></a>
+	                	<a href="./buy_view.jsp?am_code=<%=am_code %>"><%=am_code %></a>
 	                </span>
 	                <span class="item_contents2"><%=am_date %></span>
 	                <span class="item_contents3"><%=m_id %></span>
 	                <span class="item_contents4">
-		                <form method="post" action="./order_proc.jsp">
-		                <input type="hidden" name="am_code" value="<%=am_code %>">
+	                
 <%
-	String[] stat_val = {"A", "B", "C", "D"};
-	String[] stat_title = {"주문", "결제확인", "배송시작", "배송완료"};
+					String[] stat_val = {"A", "B", "C", "D"};
+					String[] stat_title = {"주문", "결제확인", "배송시작", "배송완료"};
 %>
-	                	<select name="am_stat">
+
 	                		<%for(int i = 0; i < 4; i++) { 
 								if(am_stat.equals(stat_val[i])) {
                				%>
-	                			<option value='<%=stat_val[i] %>' selected="selected"><%=stat_title[i] %></option>
-               				<%
-	                			} else {
-               				%>
-	                			<option value='<%=stat_val[i] %>'><%=stat_title[i] %></option>
-               				<%
-	                			}
-	                		%>
-	                			
-	                			<% } %>
-	                	</select>
-	                	<input type="submit" value="상태변경">
-	                	</form>
+	                			<%=stat_title[i] %> <!-- 현재 상태만 출력 -->
+               					<% } %>
+                			<% } %>
 	                </span>
 	                <span class="item_contents5">
-	                	기타
+	                	<!-- 합계금액 따로 루프처리 -->
+	                	<%=acs_total %>
 	                </span>
                 
                 <%
