@@ -2,7 +2,7 @@ package com.cbnu;
 import com.cbnu.Action;
 
 /*Singleton Pattern : 클래스의 인스턴스가 하나임을 보장하고 접근할 수 있는 전역적인 접근점을 제공하는 패턴*/
-
+/* Controller */
 
 public class ActionFactory {
 	private static ActionFactory instance = null;
@@ -20,6 +20,10 @@ public class ActionFactory {
 			action = new BoardListAction();
 		} else if (cmd.equals("board_insert_form")) {
 			action = new BoardInsertFormAction();
+		} else if (cmd.equals("board_insert")) {
+			action = new BoardInsertAction();
+		} else if (cmd.equals("board_view")) {
+			action = new BoardViewAction();
 		}
 		return action;
 	}

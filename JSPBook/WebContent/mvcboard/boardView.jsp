@@ -1,12 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <!-- JSTL 선언 -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Board Insert</title>
+<title>Board View</title>
 <link rel="stylesheet" href="./mvcboard/member.css">
+<script>
+	function openwin(num) {
+		var url = './BoardServlet?cmd=board_check_form&b_num=' + num;
+		window.open(url, "수정", "width=400, height=200");
+	}
+</script>
 </head>
 <body>
 
@@ -52,36 +59,37 @@
         </div>
         <div id="section">
             <div id="article">
-            	<p class="title">게시판 글쓰기</p>
-            	<form action="BoardServlet" method="post">
-            		<input type="hidden" name="cmd" value="board_insert">
+            	<p class="title">상세보기</p>
 					<table>
 						<tr>
-							<td class="td_title_long" colspan="2">글쓰기</td>
+							<td class="td_title_long" colspan="2"><p>상세보기</p></td>
+						</tr>
+						<tr>
+							<td class="td_title_base">글번호</td>
+							<td class="td_contents"><p>${boardone.b_num}</p></td>
 						</tr>
 						<tr>
 							<td class="td_title_base">제목</td>
-							<td class="td_contents"><input type="text" name="b_subject"></td>
+							<td class="td_contents"><p>${boardone.b_subject}</p></td>
 						</tr>
 						<tr>
 							<td class="td_title_base">작성자</td>
-							<td class="td_contents"><input type="text" name="b_name"></td>
+							<td class="td_contents"><p>${boardone.b_name}</p></td>
 						</tr>
 						<tr>
-							<td class="td_title_base">암호</td>
-							<td class="td_contents"><input type="password" name="b_passwd"></td>
+							<td class="td_title_base">작성일</td>
+							<td class="td_contents"><p>${boardone.b_date}</p></td>
 						</tr>
 						<tr>
 							<td class="td_title_big">내용</td>
-							<td class="td_contents_big">
-							<textarea name="b_contents" cols="50" rows="10"></textarea>
-							</td>
+							<td class="td_contents_big"><p>${boardone.b_contents}</p></td>
 						</tr>
 						<tr>
-							<td class="td_title_long" colspan="2"><input type="submit" value="저장"></td>
+							<td class="td_title_long" colspan="2">
+								<input type="button" value="수정" onclick="openwin(${boardone.b_num});">
+							</td>
 						</tr>
 					</table>
-				</form>
             </div>
         </div>
     </div>

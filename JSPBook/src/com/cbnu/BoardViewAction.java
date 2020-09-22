@@ -1,28 +1,25 @@
 package com.cbnu;
 
-import java.io.*;
-import java.util.List;
+import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/* controller */
-public class BoardListAction implements Action{
+/* 데이터가 넘나드는 공간 */
+public class BoardViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String url = "./mvcboard/boardlist.jsp"; // view
+		String b_num = request.getParameter("b_num");
+		String url = "./mvcboard/boardView.jsp";
+		BoardDAO bDao = BoardDAO.getInstance(); // singleton
+		BoardVO bVo = bDao.selectBoardItem(Integer.parseInt(b_num));
 		
-		BoardDAO bDao = BoardDAO.getInstance(); //singleton 생성
-		List<BoardVO> list = bDao.selectAll();
-		
-		request.setAttribute("list", list); // list 데이터를 "list" 로 설정하여 view 로 전송
+		request.setAttribute("boardone", bVo); // bVo를 boardone라는 이름으로 넘겨 JSTL로 처리
 		
 		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
-
 }
