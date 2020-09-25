@@ -148,4 +148,47 @@ public class BoardDAO {
 		
 		return chk;
 	}
+	
+	public void updateBoard(BoardVO bVo) { // 게시글 수정
+		String sql = "";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConn.getConnection();
+			sql = "update mvcboard set b_subject = ?, b_name = ?, b_contents = ? " +
+					"where b_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, bVo.getB_subject());
+			pstmt.setString(2, bVo.getB_name());
+			pstmt.setString(3, bVo.getB_contents());
+			pstmt.setInt(4, bVo.getB_num());
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn);
+		}
+	}
+	
+	public void deleteBoard(int b_num) { // 게시글 삭제
+		String sql = "";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			conn = DBConn.getConnection();
+			sql = "delete from mvcboard where b_num = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, b_num);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn);
+		}
+	}
+
 }

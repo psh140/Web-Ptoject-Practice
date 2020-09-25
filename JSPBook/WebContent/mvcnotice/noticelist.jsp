@@ -7,8 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Board List</title>
-<link rel="stylesheet" href="./mvcboard/member.css?ver=1">
+<title>Notice List</title>
+<link rel="stylesheet" href="./mvcnotice/member.css">
 </head>
 <body>
 
@@ -63,11 +63,11 @@
                 <span class="item_title5">기타</span>
                 
                 <br>
-                <c:forEach var="board" items="${list}"> <!-- JSTL 반복문 -->
-	                <span class="item_contents1">${board.b_num}</span>
-	                <span class="item_contents2"><a href="./BoardServlet?cmd=board_view&b_num=${board.b_num}">${board.b_subject}</a></span>
-	                <span class="item_contents3">${board.b_name}</span>
-	                <span class="item_contents4">${fn:substring(board.b_date, 0, 10)}
+                <c:forEach var="notice" items="${list}"> <!-- JSTL 반복문 -->
+	                <span class="item_contents1">${notice.n_num}</span>
+	                <span class="item_contents2"><a href="./NoticeServlet?cmd=notice_view&n_num=${notice.n_num}">${notice.n_subject}</a></span>
+	                <span class="item_contents3">${notice.n_name}</span>
+	                <span class="item_contents4">${fn:substring(notice.n_date, 0, 10)}
         	        <%-- <fmt:parseDate var="date" value="${board.b_date}" pattern="yyyy-MM-dd HH:mm:ss"/>
 	                <fmt:formatDate value="${date}" pattern="yyyy-MM-dd"/>  이렇게 파싱해도 됨 --%>
 	                </span>
@@ -75,7 +75,7 @@
 	                <br>
                 </c:forEach>
                 
-                <p><a href="./BoardServlet?cmd=board_insert_form">글쓰기</a></p>
+                <p><a href="./NoticeServlet?cmd=notice_insert_form">글쓰기</a></p>
             </div>
         </div>
     </div>

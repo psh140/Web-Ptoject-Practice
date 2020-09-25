@@ -18,12 +18,22 @@ public class ActionFactory {
 		Action action = null;
 		if (cmd.equals("board_list")) { // 초기화면은 리스트
 			action = new BoardListAction();
-		} else if (cmd.equals("board_insert_form")) {
+		} else if (cmd.equals("board_insert_form")) { // 글쓰기창 
 			action = new BoardInsertFormAction();
-		} else if (cmd.equals("board_insert")) {
+		} else if (cmd.equals("board_insert")) { // 글 올리기
 			action = new BoardInsertAction();
-		} else if (cmd.equals("board_view")) {
+		} else if (cmd.equals("board_view")) { // 글 상세보기 창
 			action = new BoardViewAction();
+		} else if(cmd.equals("board_check_form")) { // 수정할 때 비밀번호 확인 창
+			action = new BoardCheckFormAction();
+		} else if(cmd.equals("board_check_ok")) { // 비밀번호 확인
+			action = new BoardCheckAction();
+		} else if(cmd.equals("board_update_form")) { // 수정페이지
+			action = new BoardUpdateFormAction();
+		} else if(cmd.equals("board_update")) {
+			action = new BoardUpdateAction();
+		} else if(cmd.equals("board_delete")) {
+			action = new BoardDeleteAction();
 		}
 		return action;
 	}

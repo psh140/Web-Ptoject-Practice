@@ -1,21 +1,27 @@
-package com.cbnu;
+package com.test.notice;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class BoardInsertFormAction implements Action {
+public class NoticeListAction implements ActionNotice{
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String url = "./mvcboard/boardInsert.jsp";
+		String url = "./mvcnotice/noticelist.jsp";
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher(url); // 글쓰기 버튼으로 받고 글쓰기 창으로 보내기
+		NoticeDAO nDao = NoticeDAO.getInstance();
+		List<NoticeVO> list = nDao.selectAll();
+		
+		request.setAttribute("list", list);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		dispatcher.forward(request, response);
 	}
 
+	
 }

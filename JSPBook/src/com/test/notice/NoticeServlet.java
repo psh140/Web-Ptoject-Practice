@@ -1,25 +1,25 @@
-package com.cbnu;
+package com.test.notice;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.cbnu.ActionFactory;
+
 /**
- * Servlet implementation class BoardServlet
+ * Servlet implementation class NoticeServlet
  */
-@WebServlet("/BoardServlet")
-public class BoardServlet extends HttpServlet {
+@WebServlet("/NoticeServlet")
+public class NoticeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BoardServlet() {
+    public NoticeServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -28,11 +28,11 @@ public class BoardServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html;charset=UTF-8"); // 응답 방식과 사용할 charset
-//		PrintWriter out = response.getWriter();
+		response.setContentType("text/html;charset=UTF-8");
+		
 		String cmd = request.getParameter("cmd");
-		ActionFactory af = ActionFactory.getInstance(); // singleton pattern
-		Action action = af.getAction(cmd);
+		ActionFactoryNotice af = ActionFactoryNotice.getInstance();
+		ActionNotice action = af.getAction(cmd);
 		if (action != null) {
 			action.execute(request, response);
 		}
@@ -42,8 +42,7 @@ public class BoardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8"); // html 출력을 위한 stream
-
+		request.setCharacterEncoding("UTF-8");
 		doGet(request, response);
 	}
 

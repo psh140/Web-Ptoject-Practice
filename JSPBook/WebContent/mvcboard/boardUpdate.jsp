@@ -6,25 +6,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Board View</title>
+<title>Board Update Form</title>
 <link rel="stylesheet" href="./mvcboard/member.css">
-<script>
-	function golist() {
-		location.href = './BoardServlet?cmd=board_list';
-	}
-	
-	function openwin(num) {
-		var url = './BoardServlet?cmd=board_check_form&b_type=update&b_num=' + num;
-		window.open(url, "수정", "width=400, height=200");
-	}
-	
-	function openwindel(num) {
-		var url = './BoardServlet?cmd=board_check_form&b_type=delete&b_num=' + num;
-		window.open(url, "삭제", "width=400, height=200");
-	}
-	
-	
-</script>
+
 </head>
 <body>
 
@@ -70,10 +54,13 @@
         </div>
         <div id="section">
             <div id="article">
-            	<p class="title">상세보기</p>
+            	<p class="title">수정페이지</p>
+            	<form method="post" action="BoardServlet">
+            	<input type="hidden" name="cmd" value="board_update">
+            	<input type="hidden" name="b_num" value="${boardone.b_num}">
 					<table>
 						<tr>
-							<td class="td_title_long" colspan="2"><p>상세보기</p></td>
+							<td class="td_title_long" colspan="2"><p>수정하기</p></td>
 						</tr>
 						<tr>
 							<td class="td_title_base">글번호</td>
@@ -81,11 +68,11 @@
 						</tr>
 						<tr>
 							<td class="td_title_base">제목</td>
-							<td class="td_contents"><p>${boardone.b_subject}</p></td>
+							<td class="td_contents"><input type="text" name="b_subject" value="${boardone.b_subject}"></td>
 						</tr>
 						<tr>
 							<td class="td_title_base">작성자</td>
-							<td class="td_contents"><p>${boardone.b_name}</p></td>
+							<td class="td_contents"><input type="text" name="b_name" value="${boardone.b_name}"></td>
 						</tr>
 						<tr>
 							<td class="td_title_base">작성일</td>
@@ -93,16 +80,17 @@
 						</tr>
 						<tr>
 							<td class="td_title_big">내용</td>
-							<td class="td_contents_big"><p>${boardone.b_contents}</p></td>
+							<td class="td_contents_big">
+								<textarea name="b_contents" cols="50" rows="10">${boardone.b_contents}</textarea>
+							</td>
 						</tr>
 						<tr>
 							<td class="td_title_long" colspan="2">
-								<input type="button" value="리스트" onclick="golist();">
-								<input type="button" value="수정" onclick="openwin(${boardone.b_num});">
-								<input type="button" value="삭제" onclick="openwindel(${boardone.b_num});">
+								<input type="submit" value="수정">
 							</td>
 						</tr>
 					</table>
+				</form>
             </div>
         </div>
     </div>
