@@ -34,6 +34,8 @@ public class ActionFactory {
 			action = new BoardUpdateAction();
 		} else if(cmd.equals("board_delete")) {
 			action = new BoardDeleteAction();
+		} else if(cmd.equals("logout")) {
+			action = new LogoutAction();
 		}
 		return action;
 	}

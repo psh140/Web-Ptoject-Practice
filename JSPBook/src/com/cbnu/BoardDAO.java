@@ -21,7 +21,7 @@ public class BoardDAO {
 		return instance;
 	}
 	
-	public List<BoardVO> selectAll() { // 전체 레코드셋 저장
+	public List<BoardVO> selectAll(int pageNum, int pageSize) { // 전체 레코드셋 저장
 		String sql = "";
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -31,8 +31,15 @@ public class BoardDAO {
 		
 		try {
 			conn = DBConn.getConnection();
-			sql = "select * from mvcboard order by b_num desc";
+			sql = "select * from " + // 게시글 페이징
+    				"(select * from " +
+    				"(select rownum as SEQ, b_num, b_subject, b_name, b_passwd, b_date, b_contents from " + // 글정보
+    				"(select * from mvcboard order by b_num desc)" + // 게시글 나열
+    				") where SEQ >= ?" + // 페이징 시작 위치 지정. 페이지 번호
+    				") where rownum <= ?"; // pagenum번부터 시작해서 pageSize개의 글 페이지 단위(상수)
 			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, (pageNum - 1) * pageSize + 1);
+			pstmt.setInt(2, pageSize);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
@@ -189,6 +196,48 @@ public class BoardDAO {
 		} finally {
 			DBConn.close(conn);
 		}
+	}
+	
+	public PagingVO pagingBoard(int pageNum, int pageSize, int groupSize) {
+		String sql = "";
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PagingVO pVo = null;
+		int startPage = 1;
+		int endPage = 0;
+		int  lastPage = 0;
+		
+		try {
+			conn = DBConn.getConnection();
+			sql = "select count(b_num) from mvcboard";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			rs.next();
+			int total = rs.getInt(1);
+			
+			rs.close();
+			pstmt.close();
+			
+			lastPage = (total - 1) / pageSize + 1;
+    		startPage = (pageNum - 1) / groupSize * groupSize + 1;
+			endPage = (pageNum -1) / groupSize * groupSize + groupSize;   
+			
+			pVo = new PagingVO();
+			pVo.setPageNum(pageNum);
+			pVo.setPageSize(pageSize);
+			pVo.setGroupSize(groupSize);
+			pVo.setStartPage(startPage);
+			pVo.setEndPage(endPage);
+			pVo.setLastPage(lastPage);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			DBConn.close(conn);
+		}
+		return pVo;
 	}
 
 }

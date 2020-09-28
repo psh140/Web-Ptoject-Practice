@@ -15,7 +15,8 @@
 <div id="top_nav">
 		<div id="login_info">
 			<ul>
-
+				<li>${sessionScope.m_id}</li> <!-- 세션상태 보기 -->
+				<li><a href="./BoardServlet?cmd=logout">로그아웃</a></li>
 			</ul>
 		</div>
         <div id="main_gnb">

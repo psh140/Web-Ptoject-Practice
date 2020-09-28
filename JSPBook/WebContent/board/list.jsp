@@ -19,9 +19,9 @@
 		int pageSize = 10;   //페이징 단위
 		int startPage = 1;  //해당 그룹의 첫번째 페이지 번호 
 		int endPage = 0;    //해당 그룹의 마지막 페이지 번호
-		int groupSize = 10;  //페이지 리스트 단위 
 		int lastPage = 0;   //전체 레코드의 마지막 페이지
 		
+		int groupSize = 10;  //페이지 리스트 단위 
 		try {
 			if (pageNum == null) {
 				currPage = 1;

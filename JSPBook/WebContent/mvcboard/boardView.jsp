@@ -9,8 +9,8 @@
 <title>Board View</title>
 <link rel="stylesheet" href="./mvcboard/member.css">
 <script>
-	function golist() {
-		location.href = './BoardServlet?cmd=board_list';
+	function golist(num) {
+		location.href = './BoardServlet?cmd=board_list&pageNum=' + num;
 	}
 	
 	function openwin(num) {
@@ -31,7 +31,10 @@
 <div id="top_nav">
 		<div id="login_info">
 			<ul>
-
+						
+				<li>${sessionScope.ma_id}</li> <!-- 세션상태 보기 -->
+				<li><a href="./BoardServlet?cmd=logout">로그아웃</a></li>
+			
 			</ul>
 		</div>
         <div id="main_gnb">
@@ -97,7 +100,7 @@
 						</tr>
 						<tr>
 							<td class="td_title_long" colspan="2">
-								<input type="button" value="리스트" onclick="golist();">
+								<input type="button" value="리스트" onclick="golist(${param.pageNum});">
 								<input type="button" value="수정" onclick="openwin(${boardone.b_num});">
 								<input type="button" value="삭제" onclick="openwindel(${boardone.b_num});">
 							</td>

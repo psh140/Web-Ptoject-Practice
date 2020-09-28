@@ -15,7 +15,13 @@
 <div id="top_nav">
 		<div id="login_info">
 			<ul>
-
+				<li>${sessionScope.ma_id}</li> <!-- 세션상태 보기 -->
+				<c:choose>
+					<c:when test="${not empty sessionScope.ma_id }"> <!-- 세션이 존재할 시 로그인버튼 출력 -->
+						<li><a href="./BoardServlet?cmd=logout">로그아웃</a></li>
+					</c:when>
+				</c:choose>
+				
 			</ul>
 		</div>
         <div id="main_gnb">
@@ -65,7 +71,7 @@
                 <br>
                 <c:forEach var="board" items="${list}"> <!-- JSTL 반복문 -->
 	                <span class="item_contents1">${board.b_num}</span>
-	                <span class="item_contents2"><a href="./BoardServlet?cmd=board_view&b_num=${board.b_num}">${board.b_subject}</a></span>
+	                <span class="item_contents2"><a href="./BoardServlet?cmd=board_view&b_num=${board.b_num}&pageNum=${pagedata.pageNum}">${board.b_subject}</a></span>
 	                <span class="item_contents3">${board.b_name}</span>
 	                <span class="item_contents4">${fn:substring(board.b_date, 0, 10)}
         	        <%-- <fmt:parseDate var="date" value="${board.b_date}" pattern="yyyy-MM-dd HH:mm:ss"/>
@@ -74,7 +80,20 @@
 	                <span class="item_contents5">기타</span>
 	                <br>
                 </c:forEach>
-                
+                <p>
+                	<c:if test="${pagedata.startPage > 1}">
+                		<a href="./BoardServlet?cmd=board_list&pageNum=${pagedata.pageNum-pagedata.groupSize}">[이전 ${pagedata.groupSize}개로]</a>
+                	</c:if>
+					
+					<c:forEach var="i" begin="${pagedata.startPage}" end="${pagedata.endPage}">
+						<c:if test="${i <= pagedata.lastPage}">
+							<a href="./BoardServlet?cmd=board_list&pageNum=${i}">[${i}]</a>		
+						</c:if>
+					</c:forEach>
+					<c:if test="${pagedata.endPage < pagedata.lastPage}">
+						<a href="./BoardServlet?cmd=board_list&pageNum=${pagedata.startPage+pagedata.groupSize}">[다음 ${pagedata.groupSize}개로]</a>
+					</c:if>
+                </p>
                 <p><a href="./BoardServlet?cmd=board_insert_form">글쓰기</a></p>
             </div>
         </div>
