@@ -34,3 +34,7 @@ Paging, Session, Login
 
 29/09  
 servlet에서 파일 업로드 하기 p.235  
+
+05/10  
+WAS 배포  
+프로젝트 오른쪽 클릭-export-WAR File-경로지정 저장-만들어진 WAR파일을 tomcat 폴더의 webapps폴더에 저장-bin 폴더에서 startup.bat으로 톰캣 실행
